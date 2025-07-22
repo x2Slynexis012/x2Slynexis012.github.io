@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>คลังไลบรารีโค้ด</title>
+    <title>SynapseX Library</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Font: Inter -->
@@ -31,23 +31,37 @@
             background: #64748b; /* slate-600 */
         }
 
-        /* Modal specific styles for animation */
-        /* Removed .modal-hidden and .modal-visible as they are no longer explicitly used in JS for opacity/pointer-events */
-        /* The transition for opacity will be handled by `transition-opacity` or `transition-all` on the element itself */
-        /* The `hidden` Tailwind class handles `display: none` and thus `pointer-events: none` */
+        /* Animation for library items container */
+        .fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Hide scrollbar for top categories tabs */
+        #top-categories-tabs::-webkit-scrollbar {
+            display: none;
+        }
+        #top-categories-tabs {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col">
 
     <!-- Header -->
-    <header class="bg-gradient-to-r from-blue-700 to-blue-900 text-white p-4 shadow-lg">
-        <div class="container mx-auto flex items-center justify-between">
-            <h1 class="text-3xl font-bold flex items-center gap-3">
+    <header class="bg-gradient-to-r from-blue-700 to-blue-900 text-white py-6 shadow-2xl">
+        <div class="container mx-auto flex items-center justify-between px-6 md:px-10">
+            <h1 class="text-4xl font-extrabold tracking-tight drop-shadow-xl flex items-center gap-4">
                 <!-- Library Icon (Inline SVG) -->
-                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-200">
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-300 transform transition-transform duration-300 hover:scale-110">
                     <path d="m16 6 4 14"/><path d="M12 6v14"/><path d="M8 8v12"/><path d="M4 4v16"/>
                 </svg>
-                คลังไลบรารีโค้ด
+                SynapseX Library
             </h1>
             <nav>
                 <!-- Optional: Add more navigation links here -->
@@ -56,12 +70,12 @@
     </header>
 
     <!-- Main Content Area -->
-    <main class="flex flex-1 container mx-auto p-6 md:p-10 flex-col md:flex-row gap-6">
+    <main class="flex flex-1 container mx-auto p-8 md:p-12 flex-col md:flex-row gap-8">
         <!-- Sidebar for Categories -->
-        <aside class="w-full md:w-1/4 bg-white rounded-xl shadow-lg p-5">
-            <h2 class="text-2xl font-semibold text-blue-800 mb-5 flex items-center gap-2 border-b pb-3 border-blue-100">
+        <aside class="w-full md:w-1/4 bg-white rounded-xl shadow-xl p-6 h-fit border border-blue-100">
+            <h2 class="text-2xl font-semibold text-blue-800 mb-6 flex items-center gap-3 border-b pb-4 border-blue-200">
                 <!-- Category Icon (Inline SVG) -->
-                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-600">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-600">
                     <path d="M6 15V4a2 2 0 0 1 2-2h4l2 2h5a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H7a2 2 0 0 1-1.93-2.5l.8-5a2 2 0 0 1 1.93-1.5H20"/>
                 </svg>
                 หมวดหมู่
@@ -72,8 +86,13 @@
         </aside>
 
         <!-- Main Content for Library Items -->
-        <section class="flex-1 bg-white rounded-xl shadow-lg p-6">
-            <h2 id="current-category-title" class="text-3xl font-bold text-blue-800 mb-7 border-b-2 pb-4 border-blue-200">
+        <section class="flex-1 bg-white rounded-xl shadow-xl p-8 border border-blue-100">
+            <!-- Top Category Tabs/Buttons -->
+            <div id="top-categories-tabs" class="mb-8 flex flex-wrap gap-3 pb-5 border-b-2 border-blue-200 overflow-x-auto">
+                <!-- Top categories will be dynamically loaded here by JavaScript -->
+            </div>
+
+            <h2 id="current-category-title" class="text-4xl font-bold text-blue-800 mb-8">
                 เลือกหมวดหมู่
             </h2>
             <div id="library-items-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -83,26 +102,26 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-gradient-to-r from-blue-700 to-blue-900 text-white p-5 text-center mt-auto shadow-inner">
+    <footer class="bg-gradient-to-r from-blue-700 to-blue-900 text-white p-6 text-center mt-auto shadow-inner">
         <div class="container mx-auto">
-            <p class="text-sm">&copy; 2025 คลังไลบรารีโค้ด. สงวนลิขสิทธิ์.</p>
+            <p class="text-sm opacity-90">&copy; 2025 SynapseX Library. สงวนลิขสิทธิ์.</p>
         </div>
     </footer>
 
     <!-- Library Detail Modal -->
     <div id="library-detail-modal" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center p-4 z-50 hidden opacity-0 transition-opacity duration-300 ease-out">
-        <div class="bg-white rounded-lg shadow-xl w-full max-w-3xl max-h-[90vh] overflow-hidden flex flex-col transform scale-95 opacity-0 transition-all duration-300 ease-out">
-            <div class="flex justify-between items-center p-4 border-b border-gray-200 bg-blue-50">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-3xl max-h-[90vh] overflow-hidden flex flex-col transform scale-95 opacity-0 transition-all duration-300 ease-out">
+            <div class="flex justify-between items-center p-5 border-b border-gray-200 bg-blue-50">
                 <h3 id="modal-title" class="text-2xl font-bold text-blue-800"></h3>
                 <button id="modal-close-btn" class="text-gray-500 hover:text-gray-700 p-2 rounded-full hover:bg-gray-200 transition-colors duration-200">
                     <!-- Close Icon (Inline SVG) -->
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M18 6 6 18"/><path d="m6 6 12 12"/>
                     </svg>
                 </button>
             </div>
             <div class="p-6 overflow-y-auto flex-1">
-                <p id="modal-description" class="text-gray-700 mb-4"></p>
+                <p id="modal-description" class="text-gray-700 mb-5 text-base"></p>
                 <a id="modal-usage-guide-link" href="#" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline text-base mb-4 inline-flex items-center gap-2 font-medium hidden">
                     <!-- Book Open Icon (Inline SVG) -->
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -110,25 +129,25 @@
                     </svg>
                     คู่มือการใช้งาน
                 </a>
-                <div id="modal-code-section" class="mt-6 bg-gray-100 p-4 rounded-md text-sm font-mono text-gray-800 border border-gray-200 overflow-x-auto hidden">
-                    <p class="font-semibold text-gray-700 mb-2 flex items-center justify-between w-full">
+                <div id="modal-code-section" class="mt-6 bg-gray-100 p-5 rounded-lg text-sm font-mono text-gray-800 border border-gray-200 overflow-x-auto hidden">
+                    <p class="font-semibold text-gray-700 mb-3 flex items-center justify-between w-full">
                         <span>
                             <!-- Code Icon (Inline SVG) -->
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block align-middle mr-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block align-middle mr-2">
                                 <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
                             </svg>
                             โค้ด:
                         </span>
-                        <button id="copy-code-btn" class="ml-auto px-3 py-1 bg-blue-500 text-white rounded-md text-xs hover:bg-blue-600 transition-colors duration-200 flex items-center gap-1 shadow-sm">
+                        <button id="copy-code-btn" class="ml-auto px-4 py-2 bg-blue-500 text-white rounded-md text-sm hover:bg-blue-600 transition-colors duration-200 flex items-center gap-2 shadow-md">
                             <!-- Copy Icon (Inline SVG) -->
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2v2"/>
                             </svg>
                             คัดลอก
                             <span id="copy-feedback" class="text-xs ml-1 hidden"></span>
                         </button>
                     </p>
-                    <pre id="modal-code-content" class="whitespace-pre-wrap p-2 bg-gray-50 rounded-md border border-gray-100"></pre>
+                    <pre id="modal-code-content" class="whitespace-pre-wrap p-3 bg-gray-50 rounded-md border border-gray-100"></pre>
                 </div>
             </div>
         </div>
@@ -182,7 +201,7 @@
                     id: 'Hackgame',
                     name: 'Hackgame',
                     items: [
- 
+                        // No items in this category currently
                     ]
                 },
                 {
@@ -215,6 +234,7 @@
 
         // Function to show library detail modal
         function showLibraryDetail(item) {
+            console.log('Showing modal for:', item.name); // Debugging line
             modalTitle.textContent = item.name;
             modalDescription.textContent = item.description;
 
@@ -235,23 +255,18 @@
             // Make the modal container visible (display: flex)
             libraryDetailModal.classList.remove('hidden');
 
-            // Trigger the opacity and transform transitions after a slight delay
+            // Trigger the opacity transition after a slight delay
             // This delay ensures the 'hidden' class (display: none) is fully removed before transitions start
             setTimeout(() => {
                 libraryDetailModal.classList.add('opacity-100'); // Fade in background
-                // Animate the inner modal content
-                libraryDetailModal.querySelector('div').classList.add('scale-100', 'opacity-100');
-                libraryDetailModal.querySelector('div').classList.remove('scale-95', 'opacity-0');
             }, 10); // Small delay
         }
 
         // Function to hide library detail modal
         function hideLibraryDetail() {
-            // Trigger the opacity and transform transitions to hide
+            console.log('Hiding modal'); // Debugging line
+            // Trigger the opacity transition to hide
             libraryDetailModal.classList.remove('opacity-100'); // Fade out background
-            // Animate the inner modal content
-            libraryDetailModal.querySelector('div').classList.remove('scale-100', 'opacity-100');
-            libraryDetailModal.querySelector('div').classList.add('scale-95', 'opacity-0');
 
             // Hide the modal container (display: none) after the transition completes
             setTimeout(() => {
@@ -295,29 +310,48 @@
             }
         });
 
-        // Function to render categories in the sidebar
+        // Function to render categories in the sidebar AND top tabs
         function renderCategories() {
             const categoriesNav = document.getElementById('categories-nav');
-            categoriesNav.innerHTML = ''; // Clear existing categories
+            categoriesNav.innerHTML = ''; // Clear existing sidebar categories
 
-            const ul = document.createElement('ul');
+            const topCategoriesTabs = document.getElementById('top-categories-tabs');
+            topCategoriesTabs.innerHTML = ''; // Clear existing top categories
+
+            const ul = document.createElement('ul'); // For sidebar
             libraryData.categories.forEach(category => {
+                // Create sidebar button
                 const li = document.createElement('li');
-                li.className = 'mb-2';
-                const button = document.createElement('button');
-                button.className = `block w-full text-left p-3 rounded-lg transition-all duration-200 ease-in-out
+                li.className = 'mb-2 group'; // Add group for hover effects
+                const sidebarButton = document.createElement('button');
+                sidebarButton.className = `block w-full text-left p-4 rounded-xl transition-all duration-200 ease-in-out
                     ${currentSelectedCategory === category.id
-                        ? 'bg-blue-100 text-blue-800 font-semibold shadow-inner border border-blue-200'
-                        : 'text-gray-700 hover:bg-blue-50 hover:text-blue-700 hover:shadow-sm'
+                        ? 'bg-blue-100 text-blue-800 font-bold shadow-md border-l-4 border-blue-600'
+                        : 'text-gray-700 hover:bg-blue-50 hover:text-blue-700 hover:shadow-sm transform group-hover:translate-x-1'
                     }`; // Enhanced button styles
-                button.textContent = category.name;
-                button.onclick = () => {
+                sidebarButton.textContent = category.name;
+                sidebarButton.onclick = () => {
                     currentSelectedCategory = category.id;
-                    renderCategories(); // Re-render categories to update active state
-                    renderLibraryItems(category.id); // Render items for the selected category
+                    renderCategories(); // Re-render both to update active state
+                    renderLibraryItems(category.id);
                 };
-                li.appendChild(button);
+                li.appendChild(sidebarButton);
                 ul.appendChild(li);
+
+                // Create top tab button
+                const topTabButton = document.createElement('button');
+                topTabButton.className = `px-6 py-2 rounded-full font-semibold text-base transition-all duration-200 ease-in-out whitespace-nowrap
+                    ${currentSelectedCategory === category.id
+                        ? 'bg-blue-600 text-white shadow-lg transform scale-105'
+                        : 'bg-blue-100 text-blue-700 hover:bg-blue-200 hover:shadow-md'
+                    }`; // Enhanced top tab styles
+                topTabButton.textContent = category.name;
+                topTabButton.onclick = () => {
+                    currentSelectedCategory = category.id;
+                    renderCategories(); // Re-render both to update active state
+                    renderLibraryItems(category.id);
+                };
+                topCategoriesTabs.appendChild(topTabButton);
             });
             categoriesNav.appendChild(ul);
         }
@@ -325,7 +359,9 @@
         // Function to render library items for a given category
         function renderLibraryItems(categoryId) {
             const libraryItemsContainer = document.getElementById('library-items-container');
-            libraryItemsContainer.innerHTML = ''; // Clear existing items
+            // Clear existing items and apply fade-out effect
+            libraryItemsContainer.classList.remove('fade-in'); // Remove to re-trigger animation
+            libraryItemsContainer.innerHTML = ''; // Clear contents
 
             const currentCategory = libraryData.categories.find(cat => cat.id === categoryId);
             const currentCategoryTitle = document.getElementById('current-category-title');
@@ -335,22 +371,25 @@
                 if (currentCategory.items.length > 0) {
                     currentCategory.items.forEach(item => {
                         const itemCard = document.createElement('div');
-                        itemCard.className = 'bg-blue-50 border border-blue-200 rounded-xl p-6 shadow-md flex flex-col justify-between cursor-pointer transform hover:scale-105 hover:shadow-xl transition-all duration-300 ease-in-out'; // Enhanced card hover effects
-                        itemCard.onclick = () => showLibraryDetail(item); // Add click handler to show detail modal
+                        itemCard.className = 'bg-blue-50 border border-blue-200 rounded-2xl p-8 shadow-lg flex flex-col justify-between cursor-pointer transform hover:-translate-y-2 hover:shadow-2xl transition-all duration-300 ease-in-out'; // Enhanced card hover effects
+                        itemCard.onclick = () => {
+                            console.log('Card clicked:', item.name); // Debugging line
+                            showLibraryDetail(item); // Add click handler to show detail modal
+                        };
 
                         let itemContent = `
                             <div>
-                                <h3 class="text-xl font-bold text-blue-900 mb-2">${item.name}</h3>
-                                <p class="text-gray-700 text-sm mb-4">${item.description}</p>
+                                <h3 class="text-2xl font-bold text-blue-900 mb-3">${item.name}</h3>
+                                <p class="text-gray-700 text-base mb-5">${item.description}</p>
                         `;
 
                         // Usage Guide Link (only show if present)
                         if (item.usageGuideLink) {
                             itemContent += `
                                 <a href="${item.usageGuideLink}" target="_blank" rel="noopener noreferrer"
-                                   class="text-blue-600 hover:underline text-sm mb-2 inline-flex items-center gap-1">
+                                   class="text-blue-600 hover:underline text-base mb-3 inline-flex items-center gap-2 font-medium">
                                     <!-- Book Open Icon (Inline SVG) -->
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block align-middle mr-1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block align-middle mr-1">
                                         <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
                                     </svg>
                                     คู่มือการใช้งาน
@@ -363,10 +402,10 @@
                              // Display only a short snippet on the card
                             const snippet = item.usageExample.split('\n')[0] + (item.usageExample.split('\n').length > 1 ? '...' : '');
                             itemContent += `
-                                <div class="mt-3 bg-gray-100 p-3 rounded-md text-xs font-mono text-gray-800 border border-gray-200 overflow-x-auto">
-                                    <p class="font-semibold text-gray-700 mb-1 inline-flex items-center gap-1">
+                                <div class="mt-4 bg-gray-100 p-4 rounded-lg text-sm font-mono text-gray-800 border border-gray-200 overflow-x-auto">
+                                    <p class="font-semibold text-gray-700 mb-2 inline-flex items-center gap-1">
                                         <!-- Code Icon (Inline SVG) -->
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block align-middle mr-1">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block align-middle mr-1">
                                             <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
                                         </svg>
                                         ตัวอย่าง:
@@ -383,12 +422,12 @@
                 } else {
                     // Enhanced "No libraries found" message
                     libraryItemsContainer.innerHTML = `
-                        <div class="col-span-full text-center py-10 text-gray-500">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="mx-auto mb-4 text-blue-300">
+                        <div class="col-span-full text-center py-12 text-gray-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="mx-auto mb-6 text-blue-300 opacity-75">
                                 <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" x2="8" y1="13" y2="13"/><line x1="16" x2="8" y1="17" y2="17"/><line x1="10" x2="8" y1="9" y2="9"/>
                             </svg>
-                            <p class="text-xl font-medium mb-2">ไม่พบไลบรารีในหมวดหมู่นี้</p>
-                            <p class="text-md">ลองเลือกหมวดหมู่อื่นๆ หรือเพิ่มไลบรารีใหม่!</p>
+                            <p class="text-2xl font-bold mb-3 text-blue-700">ไม่พบไลบรารีในหมวดหมู่นี้</p>
+                            <p class="text-lg text-gray-600">ลองเลือกหมวดหมู่อื่นๆ หรือเพิ่มไลบรารีใหม่!</p>
                         </div>
                     `;
                 }
@@ -396,11 +435,15 @@
                 currentCategoryTitle.textContent = 'ไม่พบหมวดหมู่';
                 libraryItemsContainer.innerHTML = '<p class="text-gray-600 col-span-full">กรุณาเลือกหมวดหมู่จากแถบด้านข้าง</p>';
             }
+            // Apply fade-in effect after content is rendered
+            setTimeout(() => {
+                libraryItemsContainer.classList.add('fade-in');
+            }, 50); // Small delay to ensure content is painted before animation
         }
 
         // Initialize the page on load
         window.onload = function() {
-            renderCategories(); // Render categories initially
+            renderCategories(); // Render categories initially (both sidebar and top tabs)
             renderLibraryItems(currentSelectedCategory); // Render items for the default selected category
         };
     </script>
