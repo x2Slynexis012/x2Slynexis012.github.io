@@ -14,6 +14,7 @@
             margin: 0;
             padding: 0;
             background-color: #f0f9ff; /* blue-50 */
+            overflow-x: hidden; /* Prevent horizontal scroll due to snow particles */
         }
         /* Custom scrollbar for pre tags */
         pre::-webkit-scrollbar {
@@ -48,6 +49,30 @@
         #top-categories-tabs {
             -ms-overflow-style: none;  /* IE and Edge */
             scrollbar-width: none;  /* Firefox */
+        }
+
+        /* Snow effect styles */
+        .snow-particle {
+            position: fixed;
+            background-color: #ffffff;
+            border-radius: 50%;
+            pointer-events: none; /* Allow clicks to pass through */
+            z-index: 9999; /* Ensure snow is on top */
+            animation: snowfall linear infinite;
+        }
+
+        @keyframes snowfall {
+            0% {
+                transform: translateY(-10px) translateX(0);
+                opacity: 0;
+            }
+            20% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(100vh) translateX(var(--snow-drift));
+                opacity: 0;
+            }
         }
     </style>
 </head>
@@ -110,7 +135,7 @@
 
     <!-- Library Detail Modal -->
     <div id="library-detail-modal" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center p-4 z-50 hidden opacity-0 transition-opacity duration-300 ease-out">
-        <div class="bg-white rounded-xl shadow-2xl w-full max-w-3xl max-h-[90vh] overflow-hidden flex flex-col transform scale-95 opacity-0 transition-all duration-300 ease-out">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-3xl max-h-[90vh] overflow-hidden flex flex-col">
             <div class="flex justify-between items-center p-5 border-b border-gray-200 bg-blue-50">
                 <h3 id="modal-title" class="text-2xl font-bold text-blue-800"></h3>
                 <button id="modal-close-btn" class="text-gray-500 hover:text-gray-700 p-2 rounded-full hover:bg-gray-200 transition-colors duration-200">
@@ -164,7 +189,7 @@
                         {
                             id: 'GetPlayerPosition',
                             name: 'GetPlayerPosition',
-                            description: 'ฟังชั่นสำหรับ ดึงพิกัดตัวละครผู้เล่นที่อยู่ในเกม\nพิกัดจะถูกคัดลอกให้อัตโนมัติ',
+                            description: 'ฟังชั่นสำหรับ ดึงพิกัดตัวละครผู้เล่นที่อยู่ในเกม\\nพิกัดจะถูกคัดลอกให้อัตโนมัติ',
                             usageGuideLink: 'https://www.mongodb.com/docs/drivers/node/current/quick-start/',
                             usageExample: 'GetPlayerPosition():'
                         },
@@ -178,7 +203,7 @@
                         {
                             id: 'MovePlayerToPoint',
                             name: 'MovePlayerToPoint',
-                            description: 'ฟังชั่นสำหรับ ส่งตัวผู้เล่นค่อยๆเลื่อนไปที่ละนิดไปยังพิกัดที่กำหนด\nสามารถตั้งความเร็วได้',
+                            description: 'ฟังชั่นสำหรับ ส่งตัวผู้เล่นค่อยๆเลื่อนไปที่ละนิดไปยังพิกัดที่กำหนด\\nสามารถตั้งความเร็วได้',
                             usageGuideLink: 'https://www.mongodb.com/docs/drivers/node/current/quick-start/',
                             usageExample: 'MovePlayerToPoint(x, y, z, speed=0.2)'
                         }
@@ -441,10 +466,62 @@
             }, 50); // Small delay to ensure content is painted before animation
         }
 
+        // Snowfall effect JavaScript
+        function createSnowParticle() {
+            const snow = document.createElement('div');
+            snow.classList.add('snow-particle');
+
+            const size = Math.random() * 5 + 2; // Size between 2px and 7px
+            snow.style.width = `${size}px`;
+            snow.style.height = `${size}px`;
+
+            const startX = Math.random() * window.innerWidth;
+            snow.style.left = `${startX}px`;
+
+            const animationDuration = Math.random() * 10 + 5; // Duration between 5s and 15s
+            snow.style.animationDuration = `${animationDuration}s`;
+
+            const animationDelay = Math.random() * -animationDuration; // Start at random points in animation cycle
+            snow.style.animationDelay = `${animationDelay}s`;
+
+            const driftAmount = Math.random() * 100 - 50; // Drift left or right by -50px to 50px
+            snow.style.setProperty('--snow-drift', `${driftAmount}px`);
+
+            document.body.appendChild(snow);
+
+            // Remove particle after it falls off screen to prevent memory leaks
+            snow.addEventListener('animationend', () => {
+                snow.remove();
+            });
+        }
+
+        // Generate snow particles continuously
+        let snowInterval;
+        function startSnowfall() {
+            // Clear any existing interval to prevent duplicates
+            if (snowInterval) clearInterval(snowInterval);
+
+            // Create initial burst of snow
+            for (let i = 0; i < 50; i++) {
+                createSnowParticle();
+            }
+
+            // Continuously create new snow particles
+            snowInterval = setInterval(createSnowParticle, 200); // Create a new particle every 200ms
+        }
+
+        // Stop snowfall (optional, if you want a toggle)
+        function stopSnowfall() {
+            clearInterval(snowInterval);
+            document.querySelectorAll('.snow-particle').forEach(particle => particle.remove());
+        }
+
+
         // Initialize the page on load
         window.onload = function() {
             renderCategories(); // Render categories initially (both sidebar and top tabs)
             renderLibraryItems(currentSelectedCategory); // Render items for the default selected category
+            startSnowfall(); // Start the snow effect
         };
     </script>
 </body>
