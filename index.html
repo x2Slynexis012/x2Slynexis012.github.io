@@ -1,528 +1,176 @@
 <!DOCTYPE html>
-<html lang="th">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SynapseX Library</title>
-    <!-- Tailwind CSS CDN -->
+    <title>Program Download Center</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Font: Inter -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        :root {
+            --bg-color: #0d0e10;
+            --card-bg-color: rgba(20, 25, 30, 0.6);
+            --text-color: #e8e8e8;
+            --accent-color: #3B82F6; /* Blue accent for a fresh look */
+            --accent-dark-color: #2563EB;
+        }
+
         body {
             font-family: 'Inter', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f0f9ff; /* blue-50 */
-            overflow-x: hidden; /* Prevent horizontal scroll due to snow particles */
-        }
-        /* Custom scrollbar for pre tags */
-        pre::-webkit-scrollbar {
-            height: 6px;
-        }
-        pre::-webkit-scrollbar-track {
-            background: #e2e8f0; /* gray-200 */
-            border-radius: 10px;
-        }
-        pre::-webkit-scrollbar-thumb {
-            background: #94a3b8; /* slate-400 */
-            border-radius: 10px;
-        }
-        pre::-webkit-scrollbar-thumb:hover {
-            background: #64748b; /* slate-600 */
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            background: radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.1) 0%, rgba(0,0,0,0) 70%),
+                        radial-gradient(circle at 90% 80%, rgba(59, 130, 246, 0.1) 0%, rgba(0,0,0,0) 70%),
+                        linear-gradient(135deg, #101214 0%, #0d0e10 100%);
+            background-attachment: fixed;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 3rem 1rem;
         }
 
-        /* Animation for library items container */
-        .fade-in {
-            animation: fadeIn 0.5s ease-out;
+        .card {
+            background-color: var(--card-bg-color);
+            backdrop-filter: blur(25px);
+            border: 1px solid rgba(70, 70, 70, 0.4);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.5s ease;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        .card:hover {
+            transform: translateY(-15px) scale(1.03);
+            border-color: var(--accent-color);
+            box-shadow: 0 25px 60px rgba(59, 130, 246, 0.25);
         }
 
-        /* Hide scrollbar for top categories tabs */
-        #top-categories-tabs::-webkit-scrollbar {
-            display: none;
-        }
-        #top-categories-tabs {
-            -ms-overflow-style: none;  /* IE and Edge */
-            scrollbar-width: none;  /* Firefox */
-        }
-
-        /* Snow effect styles */
-        .snow-particle {
-            position: fixed;
-            background-color: #ffffff;
-            border-radius: 50%;
-            pointer-events: none; /* Allow clicks to pass through */
-            z-index: 9999; /* Ensure snow is on top */
-            animation: snowfall linear infinite;
+        .download-button {
+            background: linear-gradient(45deg, var(--accent-color), #60A5FA);
+            color: white;
+            font-weight: 700;
+            transition: background 0.4s ease, transform 0.3s ease, box-shadow 0.4s ease;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
         }
 
-        @keyframes snowfall {
-            0% {
-                transform: translateY(-10px) translateX(0);
-                opacity: 0;
-            }
-            20% {
-                opacity: 0.8;
-            }
-            100% {
-                transform: translateY(100vh) translateX(var(--snow-drift));
-                opacity: 0;
-            }
+        .download-button:hover {
+            background: linear-gradient(45deg, var(--accent-dark-color), #3B82F6);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.5);
+        }
+
+        .icon-container {
+            width: 100px;
+            height: 100px;
+            background-color: rgba(59, 130, 246, 0.1);
+            border-radius: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        
+        .card:hover .icon-container {
+            transform: scale(1.2) rotate(8deg);
+        }
+
+        .icon-container svg {
+            width: 64px;
+            height: 64px;
+            color: var(--accent-color);
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col">
+<body class="flex flex-col items-center justify-center min-h-screen p-6">
 
-    <!-- Header -->
-    <header class="bg-gradient-to-r from-blue-700 to-blue-900 text-white py-6 shadow-2xl">
-        <div class="container mx-auto flex items-center justify-between px-6 md:px-10">
-            <h1 class="text-4xl font-extrabold tracking-tight drop-shadow-xl flex items-center gap-4">
-                <!-- Library Icon (Inline SVG) -->
-                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-300 transform transition-transform duration-300 hover:scale-110">
-                    <path d="m16 6 4 14"/><path d="M12 6v14"/><path d="M8 8v12"/><path d="M4 4v16"/>
-                </svg>
-                SynapseX Library
-            </h1>
-            <nav>
-                <!-- Optional: Add more navigation links here -->
-            </nav>
-        </div>
-    </header>
-
-    <!-- Main Content Area -->
-    <main class="flex flex-1 container mx-auto p-8 md:p-12 flex-col md:flex-row gap-8">
-        <!-- Sidebar for Categories -->
-        <aside class="w-full md:w-1/4 bg-white rounded-xl shadow-xl p-6 h-fit border border-blue-100">
-            <h2 class="text-2xl font-semibold text-blue-800 mb-6 flex items-center gap-3 border-b pb-4 border-blue-200">
-                <!-- Category Icon (Inline SVG) -->
-                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-600">
-                    <path d="M6 15V4a2 2 0 0 1 2-2h4l2 2h5a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H7a2 2 0 0 1-1.93-2.5l.8-5a2 2 0 0 1 1.93-1.5H20"/>
-                </svg>
-                หมวดหมู่
-            </h2>
-            <nav id="categories-nav">
-                <!-- Categories will be dynamically loaded here by JavaScript -->
-            </nav>
-        </aside>
-
-        <!-- Main Content for Library Items -->
-        <section class="flex-1 bg-white rounded-xl shadow-xl p-8 border border-blue-100">
-            <!-- Top Category Tabs/Buttons -->
-            <div id="top-categories-tabs" class="mb-8 flex flex-wrap gap-3 pb-5 border-b-2 border-blue-200 overflow-x-auto">
-                <!-- Top categories will be dynamically loaded here by JavaScript -->
-            </div>
-
-            <h2 id="current-category-title" class="text-4xl font-bold text-blue-800 mb-8">
-                เลือกหมวดหมู่
-            </h2>
-            <div id="library-items-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Library items will be dynamically loaded here by JavaScript -->
-            </div>
-        </section>
-    </main>
-
-    <!-- Footer -->
-    <footer class="bg-gradient-to-r from-blue-700 to-blue-900 text-white p-6 text-center mt-auto shadow-inner">
-        <div class="container mx-auto">
-            <p class="text-sm opacity-90">&copy; 2025 SynapseX Library. สงวนลิขสิทธิ์.</p>
-        </div>
-    </footer>
-
-    <!-- Library Detail Modal -->
-    <div id="library-detail-modal" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center p-4 z-50 hidden opacity-0 transition-opacity duration-300 ease-out">
-        <div class="bg-white rounded-xl shadow-2xl w-full max-w-3xl max-h-[90vh] overflow-hidden flex flex-col">
-            <div class="flex justify-between items-center p-5 border-b border-gray-200 bg-blue-50">
-                <h3 id="modal-title" class="text-2xl font-bold text-blue-800"></h3>
-                <button id="modal-close-btn" class="text-gray-500 hover:text-gray-700 p-2 rounded-full hover:bg-gray-200 transition-colors duration-200">
-                    <!-- Close Icon (Inline SVG) -->
-                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M18 6 6 18"/><path d="m6 6 12 12"/>
-                    </svg>
-                </button>
-            </div>
-            <div class="p-6 overflow-y-auto flex-1">
-                <p id="modal-description" class="text-gray-700 mb-5 text-base"></p>
-                <a id="modal-usage-guide-link" href="#" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline text-base mb-4 inline-flex items-center gap-2 font-medium hidden">
-                    <!-- Book Open Icon (Inline SVG) -->
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
-                    </svg>
-                    คู่มือการใช้งาน
-                </a>
-                <div id="modal-code-section" class="mt-6 bg-gray-100 p-5 rounded-lg text-sm font-mono text-gray-800 border border-gray-200 overflow-x-auto hidden">
-                    <p class="font-semibold text-gray-700 mb-3 flex items-center justify-between w-full">
-                        <span>
-                            <!-- Code Icon (Inline SVG) -->
-                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block align-middle mr-2">
-                                <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
-                            </svg>
-                            โค้ด:
-                        </span>
-                        <button id="copy-code-btn" class="ml-auto px-4 py-2 bg-blue-500 text-white rounded-md text-sm hover:bg-blue-600 transition-colors duration-200 flex items-center gap-2 shadow-md">
-                            <!-- Copy Icon (Inline SVG) -->
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2v2"/>
-                            </svg>
-                            คัดลอก
-                            <span id="copy-feedback" class="text-xs ml-1 hidden"></span>
-                        </button>
-                    </p>
-                    <pre id="modal-code-content" class="whitespace-pre-wrap p-3 bg-gray-50 rounded-md border border-gray-100"></pre>
-                </div>
-            </div>
-        </div>
+    <!-- Logo Section -->
+    <img src="https://img2.pic.in.th/pic/SynapX_Logo.png" alt="SynapX Logo" class="w-20 h-20 mb-8 md:mb-12 rounded-full">
+    
+    <div class="w-full max-w-5xl text-center mb-16">
+        <h1 class="text-5xl md:text-6xl font-extrabold mb-4 tracking-tight text-white">SynapseX Executor</h1>
+        <p class="text-xl md:text-2xl text-gray-300 font-light">The best Executor for you.</p>
     </div>
 
-    <script>
-        // Data for library items and categories (simulating a JSON file)
-        const libraryData = {
-            categories: [
-                {
-                    id: 'Player',
-                    name: 'Player',
-                    items: [
-                        {
-                            id: 'GetPlayerPosition',
-                            name: 'GetPlayerPosition',
-                            description: 'ฟังชั่นสำหรับ ดึงพิกัดตัวละครผู้เล่นที่อยู่ในเกม\\nพิกัดจะถูกคัดลอกให้อัตโนมัติ',
-                            usageGuideLink: 'https://www.mongodb.com/docs/drivers/node/current/quick-start/',
-                            usageExample: 'GetPlayerPosition():'
-                        },
-                        {
-                            id: 'TeleportPlayer',
-                            name: 'TeleportPlayer',
-                            description: 'ฟังชั่นสำหรับ ส่งตัวผู้เล่นไปยังพิกัดที่กำหนด',
-                            usageGuideLink: 'https://www.mongodb.com/docs/drivers/node/current/quick-start/',
-                            usageExample: 'TeleportPlayer(x, y, z)'
-                        },
-                        {
-                            id: 'MovePlayerToPoint',
-                            name: 'MovePlayerToPoint',
-                            description: 'ฟังชั่นสำหรับ ส่งตัวผู้เล่นค่อยๆเลื่อนไปที่ละนิดไปยังพิกัดที่กำหนด\\nสามารถตั้งความเร็วได้',
-                            usageGuideLink: 'https://www.mongodb.com/docs/drivers/node/current/quick-start/',
-                            usageExample: 'MovePlayerToPoint(x, y, z, speed=0.2)'
-                        }
-                    ]
-                },
-                {
-                    id: 'Vehicle',
-                    name: 'Vehicle',
-                    items: [
-                        {
-                            id: 'SetVehicleHealth',
-                            name: 'SetVehicleHealth',
-                            description: 'ฟังชั่นสำหรับ เพิ่มเลือดยานพาหนะ',
-                            usageGuideLink: 'https://www.mongodb.com/docs/drivers/node/current/quick-start/',
-                            usageExample: 'SetVehicleHealth(1000.0):'
-                        }
-                    ]
-                },
-                {
-                    id: 'Hackgame',
-                    name: 'Hackgame',
-                    items: [
-                        // No items in this category currently
-                    ]
-                },
-                {
-                    id: 'SynapseX',
-                    name: 'SynapseX',
-                    items: [
-                        {
-                            id: 'SynapseX',
-                            name: 'SynapseX Service',
-                            description: 'โปรแกรมสำหรับเขียนโปรหรือรันสคริปต่างๆ สำหรับ Creator ทั่วไป',
-                            usageGuideLink: 'https://www.mongodb.com/docs/drivers/node/current/quick-start/'
-                        }
-                    ]
-                }
-            ]
-        };
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 w-full max-w-6xl">
 
-        let currentSelectedCategory = libraryData.categories[0].id; // Default selected category
+        <!-- Program Card 1: Image Editor -->
+        <div class="card rounded-2xl overflow-hidden p-10 flex flex-col items-center text-center">
+            <div class="icon-container mb-8">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+                </svg>
+            </div>
+            <h2 class="text-2xl font-semibold mb-2 text-white">Image Editor</h2>
+            <p class="text-gray-400 text-sm mb-6 flex-grow">Professional image editing and management software with a full set of features.</p>
+            <a href="https://example.com/app1-download" class="download-button w-full py-3 rounded-xl">Download</a>
+        </div>
 
-        // Get modal elements
-        const libraryDetailModal = document.getElementById('library-detail-modal');
-        const modalTitle = document.getElementById('modal-title');
-        const modalDescription = document.getElementById('modal-description');
-        const modalUsageGuideLink = document.getElementById('modal-usage-guide-link');
-        const modalCodeSection = document.getElementById('modal-code-section');
-        const modalCodeContent = document.getElementById('modal-code-content');
-        const modalCloseBtn = document.getElementById('modal-close-btn');
-        const copyCodeBtn = document.getElementById('copy-code-btn'); // New: Copy button
-        const copyFeedback = document.getElementById('copy-feedback'); // New: Copy feedback span
+        <!-- Program Card 2: File Manager -->
+        <div class="card rounded-2xl overflow-hidden p-10 flex flex-col items-center text-center">
+            <div class="icon-container mb-8">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9.75l6-6m0 0l6 6m-6-6v12m6 12v-3.375c0-1.556-.465-3.109-1.332-4.439-1.141-1.745-2.906-2.907-4.908-3.344A3.011 3.011 0 0011.666 9.5H11.25c-1.657 0-3 1.343-3 3v2.25c0 1.556.465 3.109 1.332 4.439 1.141 1.745 2.906 2.907 4.908 3.344A3.011 3.011 0 0019.5 21v-3.375c0-1.556-.465-3.109-1.332-4.439-1.141-1.745-2.906-2.907-4.908-3.344A3.011 3.011 0 0011.666 9.5H11.25" />
+                </svg>
+            </div>
+            <h2 class="text-2xl font-semibold mb-2 text-white">File Manager</h2>
+            <p class="text-gray-400 text-sm mb-6 flex-grow">A fast and secure file manager. Organize your data with ease.</p>
+            <a href="https://example.com/app2-download" class="download-button w-full py-3 rounded-xl">Download</a>
+        </div>
 
-        // Function to show library detail modal
-        function showLibraryDetail(item) {
-            console.log('Showing modal for:', item.name); // Debugging line
-            modalTitle.textContent = item.name;
-            modalDescription.textContent = item.description;
+        <!-- Program Card 3: Video Editor -->
+        <div class="card rounded-2xl overflow-hidden p-10 flex flex-col items-center text-center">
+            <div class="icon-container mb-8">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25v13.5m-7.5-13.5v13.5m11.25-9a4.5 4.5 0 01-4.5 4.5H15M4.5 14.25h13.5a4.5 4.5 0 004.5-4.5V9a4.5 4.5 0 00-4.5-4.5H4.5A4.5 4.5 0 000 9v5.25a4.5 4.5 0 004.5 4.5h13.5a4.5 4.5 0 004.5-4.5V9.75" />
+                </svg>
+            </div>
+            <h2 class="text-2xl font-semibold mb-2 text-white">Video Editor</h2>
+            <p class="text-gray-400 text-sm mb-6 flex-grow">A powerful video editing tool. Create your work without limits.</p>
+            <a href="https://example.com/app3-download" class="download-button w-full py-3 rounded-xl">Download</a>
+        </div>
+        
+        <!-- Program Card 4: Music Player -->
+        <div class="card rounded-2xl overflow-hidden p-10 flex flex-col items-center text-center">
+            <div class="icon-container mb-8">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 13.5L12 16.5L15 13.5M9 7.5L12 10.5L15 7.5" />
+                    <circle cx="12" cy="12" r="10" />
+                </svg>
+            </div>
+            <h2 class="text-2xl font-semibold mb-2 text-white">Music Player</h2>
+            <p class="text-gray-400 text-sm mb-6 flex-grow">A modern music player that supports high-quality audio files.</p>
+            <a href="https://example.com/app4-download" class="download-button w-full py-3 rounded-xl">Download</a>
+        </div>
 
-            if (item.usageGuideLink) {
-                modalUsageGuideLink.href = item.usageGuideLink;
-                modalUsageGuideLink.classList.remove('hidden');
-            } else {
-                modalUsageGuideLink.classList.add('hidden');
-            }
+        <!-- Program Card 5: Notepad -->
+        <div class="card rounded-2xl overflow-hidden p-10 flex flex-col items-center text-center">
+            <div class="icon-container mb-8">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15M16.5 12H7.5" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+            </div>
+            <h2 class="text-2xl font-semibold mb-2 text-white">Note-taking App</h2>
+            <p class="text-gray-400 text-sm mb-6 flex-grow">Quickly and neatly jot down your ideas and thoughts.</p>
+            <a href="https://example.com/app5-download" class="download-button w-full py-3 rounded-xl">Download</a>
+        </div>
 
-            if (item.usageExample) {
-                modalCodeContent.textContent = item.usageExample;
-                modalCodeSection.classList.remove('hidden');
-            } else {
-                modalCodeSection.classList.add('hidden');
-            }
+        <!-- Program Card 6: Password Manager -->
+        <div class="card rounded-2xl overflow-hidden p-10 flex flex-col items-center text-center">
+            <div class="icon-container mb-8">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 11a1 1 0 100 2 1 1 0 000-2z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 2v20" />
+                </svg>
+            </div>
+            <h2 class="text-2xl font-semibold mb-2 text-white">Password Manager</h2>
+            <p class="text-gray-400 text-sm mb-6 flex-grow">Protect your personal data with a secure password manager.</p>
+            <a href="https://example.com/app6-download" class="download-button w-full py-3 rounded-xl">Download</a>
+        </div>
 
-            // Make the modal container visible (display: flex)
-            libraryDetailModal.classList.remove('hidden');
+    </div>
 
-            // Trigger the opacity transition after a slight delay
-            // This delay ensures the 'hidden' class (display: none) is fully removed before transitions start
-            setTimeout(() => {
-                libraryDetailModal.classList.add('opacity-100'); // Fade in background
-            }, 10); // Small delay
-        }
-
-        // Function to hide library detail modal
-        function hideLibraryDetail() {
-            console.log('Hiding modal'); // Debugging line
-            // Trigger the opacity transition to hide
-            libraryDetailModal.classList.remove('opacity-100'); // Fade out background
-
-            // Hide the modal container (display: none) after the transition completes
-            setTimeout(() => {
-                libraryDetailModal.classList.add('hidden');
-            }, 300); // Match transition duration
-        }
-
-        // Add event listener to close button
-        modalCloseBtn.addEventListener('click', hideLibraryDetail);
-
-        // New: Add event listener for copy code button
-        copyCodeBtn.addEventListener('click', () => {
-            const codeToCopy = modalCodeContent.textContent;
-            if (codeToCopy) {
-                // Use document.execCommand('copy') for better compatibility in iframes
-                const textarea = document.createElement('textarea');
-                textarea.value = codeToCopy;
-                textarea.style.position = 'fixed'; // Prevent scrolling to bottom
-                textarea.style.opacity = 0; // Hide it
-                document.body.appendChild(textarea);
-                textarea.select();
-                try {
-                    document.execCommand('copy');
-                    copyFeedback.textContent = 'คัดลอกแล้ว!';
-                    copyFeedback.classList.remove('hidden');
-                    setTimeout(() => {
-                        copyFeedback.classList.add('hidden');
-                        copyFeedback.textContent = '';
-                    }, 2000); // Hide feedback after 2 seconds
-                } catch (err) {
-                    console.error('Failed to copy text: ', err);
-                    copyFeedback.textContent = 'คัดลอกไม่ได้!';
-                    copyFeedback.classList.remove('hidden');
-                    setTimeout(() => {
-                        copyFeedback.classList.add('hidden');
-                        copyFeedback.textContent = '';
-                    }, 2000);
-                } finally {
-                    document.body.removeChild(textarea);
-                }
-            }
-        });
-
-        // Function to render categories in the sidebar AND top tabs
-        function renderCategories() {
-            const categoriesNav = document.getElementById('categories-nav');
-            categoriesNav.innerHTML = ''; // Clear existing sidebar categories
-
-            const topCategoriesTabs = document.getElementById('top-categories-tabs');
-            topCategoriesTabs.innerHTML = ''; // Clear existing top categories
-
-            const ul = document.createElement('ul'); // For sidebar
-            libraryData.categories.forEach(category => {
-                // Create sidebar button
-                const li = document.createElement('li');
-                li.className = 'mb-2 group'; // Add group for hover effects
-                const sidebarButton = document.createElement('button');
-                sidebarButton.className = `block w-full text-left p-4 rounded-xl transition-all duration-200 ease-in-out
-                    ${currentSelectedCategory === category.id
-                        ? 'bg-blue-100 text-blue-800 font-bold shadow-md border-l-4 border-blue-600'
-                        : 'text-gray-700 hover:bg-blue-50 hover:text-blue-700 hover:shadow-sm transform group-hover:translate-x-1'
-                    }`; // Enhanced button styles
-                sidebarButton.textContent = category.name;
-                sidebarButton.onclick = () => {
-                    currentSelectedCategory = category.id;
-                    renderCategories(); // Re-render both to update active state
-                    renderLibraryItems(category.id);
-                };
-                li.appendChild(sidebarButton);
-                ul.appendChild(li);
-
-                // Create top tab button
-                const topTabButton = document.createElement('button');
-                topTabButton.className = `px-6 py-2 rounded-full font-semibold text-base transition-all duration-200 ease-in-out whitespace-nowrap
-                    ${currentSelectedCategory === category.id
-                        ? 'bg-blue-600 text-white shadow-lg transform scale-105'
-                        : 'bg-blue-100 text-blue-700 hover:bg-blue-200 hover:shadow-md'
-                    }`; // Enhanced top tab styles
-                topTabButton.textContent = category.name;
-                topTabButton.onclick = () => {
-                    currentSelectedCategory = category.id;
-                    renderCategories(); // Re-render both to update active state
-                    renderLibraryItems(category.id);
-                };
-                topCategoriesTabs.appendChild(topTabButton);
-            });
-            categoriesNav.appendChild(ul);
-        }
-
-        // Function to render library items for a given category
-        function renderLibraryItems(categoryId) {
-            const libraryItemsContainer = document.getElementById('library-items-container');
-            // Clear existing items and apply fade-out effect
-            libraryItemsContainer.classList.remove('fade-in'); // Remove to re-trigger animation
-            libraryItemsContainer.innerHTML = ''; // Clear contents
-
-            const currentCategory = libraryData.categories.find(cat => cat.id === categoryId);
-            const currentCategoryTitle = document.getElementById('current-category-title');
-
-            if (currentCategory) {
-                currentCategoryTitle.textContent = currentCategory.name;
-                if (currentCategory.items.length > 0) {
-                    currentCategory.items.forEach(item => {
-                        const itemCard = document.createElement('div');
-                        itemCard.className = 'bg-blue-50 border border-blue-200 rounded-2xl p-8 shadow-lg flex flex-col justify-between cursor-pointer transform hover:-translate-y-2 hover:shadow-2xl transition-all duration-300 ease-in-out'; // Enhanced card hover effects
-                        itemCard.onclick = () => {
-                            console.log('Card clicked:', item.name); // Debugging line
-                            showLibraryDetail(item); // Add click handler to show detail modal
-                        };
-
-                        let itemContent = `
-                            <div>
-                                <h3 class="text-2xl font-bold text-blue-900 mb-3">${item.name}</h3>
-                                <p class="text-gray-700 text-base mb-5">${item.description}</p>
-                        `;
-
-                        // Usage Guide Link (only show if present)
-                        if (item.usageGuideLink) {
-                            itemContent += `
-                                <a href="${item.usageGuideLink}" target="_blank" rel="noopener noreferrer"
-                                   class="text-blue-600 hover:underline text-base mb-3 inline-flex items-center gap-2 font-medium">
-                                    <!-- Book Open Icon (Inline SVG) -->
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block align-middle mr-1">
-                                        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
-                                    </svg>
-                                    คู่มือการใช้งาน
-                                </a>
-                            `;
-                        }
-
-                        // Usage Example (inline code block - a snippet for the card)
-                        if (item.usageExample) {
-                             // Display only a short snippet on the card
-                            const snippet = item.usageExample.split('\n')[0] + (item.usageExample.split('\n').length > 1 ? '...' : '');
-                            itemContent += `
-                                <div class="mt-4 bg-gray-100 p-4 rounded-lg text-sm font-mono text-gray-800 border border-gray-200 overflow-x-auto">
-                                    <p class="font-semibold text-gray-700 mb-2 inline-flex items-center gap-1">
-                                        <!-- Code Icon (Inline SVG) -->
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block align-middle mr-1">
-                                            <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
-                                        </svg>
-                                        ตัวอย่าง:
-                                    </p>
-                                    <pre class="whitespace-pre-wrap">${snippet}</pre>
-                                </div>
-                            `;
-                        }
-
-                        itemContent += `</div>`; // Close the div for item content
-                        itemCard.innerHTML = itemContent;
-                        libraryItemsContainer.appendChild(itemCard);
-                    });
-                } else {
-                    // Enhanced "No libraries found" message
-                    libraryItemsContainer.innerHTML = `
-                        <div class="col-span-full text-center py-12 text-gray-500">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="mx-auto mb-6 text-blue-300 opacity-75">
-                                <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" x2="8" y1="13" y2="13"/><line x1="16" x2="8" y1="17" y2="17"/><line x1="10" x2="8" y1="9" y2="9"/>
-                            </svg>
-                            <p class="text-2xl font-bold mb-3 text-blue-700">ไม่พบไลบรารีในหมวดหมู่นี้</p>
-                            <p class="text-lg text-gray-600">ลองเลือกหมวดหมู่อื่นๆ หรือเพิ่มไลบรารีใหม่!</p>
-                        </div>
-                    `;
-                }
-            } else {
-                currentCategoryTitle.textContent = 'ไม่พบหมวดหมู่';
-                libraryItemsContainer.innerHTML = '<p class="text-gray-600 col-span-full">กรุณาเลือกหมวดหมู่จากแถบด้านข้าง</p>';
-            }
-            // Apply fade-in effect after content is rendered
-            setTimeout(() => {
-                libraryItemsContainer.classList.add('fade-in');
-            }, 50); // Small delay to ensure content is painted before animation
-        }
-
-        // Snowfall effect JavaScript
-        function createSnowParticle() {
-            const snow = document.createElement('div');
-            snow.classList.add('snow-particle');
-
-            const size = Math.random() * 5 + 2; // Size between 2px and 7px
-            snow.style.width = `${size}px`;
-            snow.style.height = `${size}px`;
-
-            const startX = Math.random() * window.innerWidth;
-            snow.style.left = `${startX}px`;
-
-            const animationDuration = Math.random() * 10 + 5; // Duration between 5s and 15s
-            snow.style.animationDuration = `${animationDuration}s`;
-
-            const animationDelay = Math.random() * -animationDuration; // Start at random points in animation cycle
-            snow.style.animationDelay = `${animationDelay}s`;
-
-            const driftAmount = Math.random() * 100 - 50; // Drift left or right by -50px to 50px
-            snow.style.setProperty('--snow-drift', `${driftAmount}px`);
-
-            document.body.appendChild(snow);
-
-            // Remove particle after it falls off screen to prevent memory leaks
-            snow.addEventListener('animationend', () => {
-                snow.remove();
-            });
-        }
-
-        // Generate snow particles continuously
-        let snowInterval;
-        function startSnowfall() {
-            // Clear any existing interval to prevent duplicates
-            if (snowInterval) clearInterval(snowInterval);
-
-            // Create initial burst of snow
-            for (let i = 0; i < 50; i++) {
-                createSnowParticle();
-            }
-
-            // Continuously create new snow particles
-            snowInterval = setInterval(createSnowParticle, 200); // Create a new particle every 200ms
-        }
-
-        // Stop snowfall (optional, if you want a toggle)
-        function stopSnowfall() {
-            clearInterval(snowInterval);
-            document.querySelectorAll('.snow-particle').forEach(particle => particle.remove());
-        }
-
-
-        // Initialize the page on load
-        window.onload = function() {
-            renderCategories(); // Render categories initially (both sidebar and top tabs)
-            renderLibraryItems(currentSelectedCategory); // Render items for the default selected category
-            startSnowfall(); // Start the snow effect
-        };
-    </script>
 </body>
 </html>
