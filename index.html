@@ -1,122 +1,298 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="th">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Program Download Center</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>RED CHEAT MENU - LOGIN</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-        
-        :root {
-            --bg-color: #0d0e10;
-            --card-bg-color: rgba(20, 25, 30, 0.6);
-            --text-color: #e8e8e8;
-            --accent-color: #3B82F6; /* Blue accent for a fresh look */
-            --accent-dark-color: #2563EB;
+        /* ตั้งค่าพื้นฐาน */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            background: radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.1) 0%, rgba(0,0,0,0) 70%),
-                        radial-gradient(circle at 90% 80%, rgba(59, 130, 246, 0.1) 0%, rgba(0,0,0,0) 70%),
-                        linear-gradient(135deg, #101214 0%, #0d0e10 100%);
-            background-attachment: fixed;
+            background-color: #1a1a1a;
             display: flex;
-            flex-direction: column;
-            align-items: center;
             justify-content: center;
-            min-height: 100vh;
-            padding: 3rem 1rem;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
         }
 
-        .card {
-            background-color: var(--card-bg-color);
-            backdrop-filter: blur(25px);
-            border: 1px solid rgba(70, 70, 70, 0.4);
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
-            transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.5s ease;
+        /* --- สไตล์ส่วน Login --- */
+        #login-page {
+            width: 350px;
+            background: #ffffff;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
+            border: 2px solid #ff4d4d;
+            text-align: center;
         }
 
-        .card:hover {
-            transform: translateY(-15px) scale(1.03);
-            border-color: var(--accent-color);
-            box-shadow: 0 25px 60px rgba(59, 130, 246, 0.25);
+        .login-header h1 {
+            color: #ff4d4d;
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
 
-        .download-button {
-            background: linear-gradient(45deg, var(--accent-color), #60A5FA);
+        .input-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            color: #333;
+            font-size: 14px;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .input-group input:focus {
+            border-color: #ff4d4d;
+            box-shadow: 0 0 5px rgba(255, 77, 77, 0.3);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            background: #ff4d4d;
             color: white;
-            font-weight: 700;
-            transition: background 0.4s ease, transform 0.3s ease, box-shadow 0.4s ease;
-            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 16px;
+            transition: 0.3s;
+            margin-top: 10px;
         }
 
-        .download-button:hover {
-            background: linear-gradient(45deg, var(--accent-dark-color), #3B82F6);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.5);
+        .login-btn:hover {
+            background: #cc0000;
         }
 
-        .icon-container {
-            width: 100px;
-            height: 100px;
-            background-color: rgba(59, 130, 246, 0.1);
-            border-radius: 25px;
+        #error-msg {
+            color: #ff0000;
+            font-size: 13px;
+            margin-top: 10px;
+            display: none;
+        }
+
+        /* --- สไตล์ส่วน Menu (ซ่อนไว้ตอนแรก) --- */
+        #menu-page {
+            display: none; /* ซ่อนหน้าเมนูไว้ */
+        }
+
+        .menu-container {
+            width: 350px;
+            background: #ffffff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
+            border: 2px solid #ff4d4d;
+        }
+
+        .menu-header {
+            background: #ff4d4d;
+            padding: 15px;
+            text-align: center;
+            color: white;
+            font-weight: bold;
+            font-size: 20px;
+            letter-spacing: 2px;
+            border-bottom: 3px solid #cc0000;
+        }
+
+        .menu-content {
+            padding: 20px;
+            max-height: 450px;
+            overflow-y: auto;
+        }
+
+        .section-title {
+            color: #ff4d4d;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            border-left: 4px solid #ff4d4d;
+            padding-left: 8px;
+            text-transform: uppercase;
+        }
+
+        .option-item {
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            justify-content: center;
-            transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
-        }
-        
-        .card:hover .icon-container {
-            transform: scale(1.2) rotate(8deg);
+            margin-bottom: 15px;
+            padding: 5px 0;
         }
 
-        .icon-container svg {
-            width: 64px;
-            height: 64px;
-            color: var(--accent-color);
+        .option-label {
+            color: #333;
+            font-weight: 500;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 45px;
+            height: 22px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #ff4d4d;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(23px);
+        }
+
+        hr {
+            border: 0;
+            height: 1px;
+            background: #eee;
+            margin: 15px 0;
+        }
+
+        .menu-footer {
+            background: #f9f9f9;
+            padding: 10px;
+            text-align: center;
+            font-size: 12px;
+            color: #999;
         }
     </style>
 </head>
-<body class="flex flex-col items-center justify-center min-h-screen p-6">
+<body>
 
-    <!-- Logo Section -->
-    <img src="https://img2.pic.in.th/pic/SynapX_Logo.png" alt="SynapX Logo" class="w-20 h-20 mb-8 md:mb-12 rounded-full">
-    
-    <div class="w-full max-w-5xl text-center mb-16">
-        <h1 class="text-5xl md:text-6xl font-extrabold mb-4 tracking-tight text-white">SynapseX Executor</h1>
-        <p class="text-xl md:text-2xl text-gray-300 font-light">The best Executor for you.</p>
+    <div id="login-page">
+        <div class="login-header">
+            <h1>VIP LOGIN</h1>
+        </div>
+        <div class="input-group">
+            <label>Username</label>
+            <input type="text" id="username" placeholder="ใสชื่อผู้ใช้...">
+        </div>
+        <div class="input-group">
+            <label>Password (Key)</label>
+            <input type="password" id="password" placeholder="ใส่รหัสผ่าน...">
+        </div>
+        <button class="login-btn" onclick="checkLogin()">LOGIN</button>
+        <p id="error-msg">❌ ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง!</p>
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 w-full max-w-6xl">
+    <div id="menu-page">
+        <div class="menu-container">
+            <div class="menu-header">MOD MENU VIP</div>
+            
+            <div class="menu-content">
+                <div class="section-title">Aimbot (ล็อคเป้า)</div>
+                <div class="option-item">
+                    <span class="option-label">ล็อคหัว 50%</span>
+                    <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+                </div>
+                <div class="option-item">
+                    <span class="option-label">ล็อคหัว 75%</span>
+                    <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+                </div>
+                <div class="option-item">
+                    <span class="option-label">ล็อคหัว 100%</span>
+                    <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+                </div>
 
-        <!-- Program Card 1: SynapseX V1.0.2 -->
-        <div class="card rounded-2xl overflow-hidden p-10 flex flex-col items-center text-center">
-            <div class="icon-container mb-8">
-                <!-- Replace the SVG tag with an <img> tag for a custom image -->
-                <img src="https://img.icons8.com/?size=100&id=7SFIa9M06ZCg&format=png&color=000000" alt="SynapseX Icon" class="w-16 h-16">
+                <hr>
+
+                <div class="section-title">Visuals (ESP)</div>
+                <div class="option-item">
+                    <span class="option-label">ESP Box (กรอบ)</span>
+                    <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+                </div>
+                <div class="option-item">
+                    <span class="option-label">ESP Line (เส้นทาง)</span>
+                    <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+                </div>
+
+                <hr>
+
+                <div class="section-title">Others</div>
+                <div class="option-item">
+                    <span class="option-label">Antiban System</span>
+                    <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+                </div>
+                
+                <button onclick="location.reload()" style="width:100%; padding:5px; margin-top:10px; background:none; border:1px solid #ccc; color:#999; cursor:pointer; font-size:11px; border-radius:5px;">Logout</button>
             </div>
-            <h2 class="text-2xl font-semibold mb-2 text-white">SynapseX V1.0.2</h2>
-            <p class="text-gray-400 text-sm mb-6 flex-grow">Professional image editing and management software with a full set of features.</p>
-            <a href="https://www.dropbox.com/scl/fi/2ja0jw1eqg6j4h40gdloi/SynapseX-V1.0.2.rar?rlkey=oledcvlrx5hi1gvko945dskgv&st=ilswh5bd&dl=1" class="download-button w-full py-3 rounded-xl">Download</a>
-        </div>
 
-        <!-- Program Card 1: SynapseX V1.0.2 -->
-        <div class="card rounded-2xl overflow-hidden p-10 flex flex-col items-center text-center">
-            <div class="icon-container mb-8">
-                <!-- Replace the SVG tag with an <img> tag for a custom image -->
-                <img src="https://img5.pic.in.th/file/secure-sv1/SynapX_LogoRed.png" alt="Shortcut Icon" class="w-16 h-16">
+            <div class="menu-footer">
+                Status: <span style="color: #2ecc71;">Online</span> | By ครูไอซ์สอนโปร
             </div>
-            <h2 class="text-2xl font-semibold mb-2 text-white">Shortcut</h2>
-            <p class="text-gray-400 text-sm mb-6 flex-grow">Program for shortcuts to open programs.</p>
-            <a href="https://www.dropbox.com/scl/fi/8dapdstxmnkacr15xr0mu/Shortcut.exe?rlkey=xwhusgua3zqizeu8shv9uqvia&st=ra1kivue&dl=1" class="download-button w-full py-3 rounded-xl">Download</a>
         </div>
-
     </div>
+
+    <script>
+        function checkLogin() {
+            const user = document.getElementById('username').value;
+            const pass = document.getElementById('password').value;
+            const errorMsg = document.getElementById('error-msg');
+
+            // ตั้งค่า Username และ Password ที่นี่
+            if (user === "admin" && pass === "1234") {
+                // ซ่อนหน้า Login และแสดงหน้า Menu
+                document.getElementById('login-page').style.display = 'none';
+                document.getElementById('menu-page').style.display = 'block';
+            } else {
+                // แสดงข้อความแจ้งเตือน
+                errorMsg.style.display = 'block';
+                // สั่นปุ่มหรือใส่ Effect ได้ที่นี่
+            }
+        }
+    </script>
 
 </body>
-</html>
+    </html>
+    
