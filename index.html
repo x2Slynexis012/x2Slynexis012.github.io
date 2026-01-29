@@ -3,296 +3,225 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RED CHEAT MENU - LOGIN</title>
+    <title>FF INJECTOR - BLUE EDITION</title>
     <style>
-        /* ตั้งค่าพื้นฐาน */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        :root {
+            --blue-main: #00a2ff;
+            --blue-dark: #007acc;
+            --white-bg: #ffffff;
+            --gray-light: #f5f7fa;
+            --text-dark: #2c3e50;
         }
 
         body {
-            background-color: #1a1a1a;
+            font-family: 'Kanit', 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #e0f2fe 0%, #f5f7fa 100%);
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            overflow: hidden;
+            margin: 0;
+            color: var(--text-dark);
         }
 
-        /* --- สไตล์ส่วน Login --- */
-        #login-page {
-            width: 350px;
-            background: #ffffff;
-            border-radius: 10px;
-            padding: 30px;
-            box-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
-            border: 2px solid #ff4d4d;
+        .container {
+            background: var(--white-bg);
+            width: 420px;
+            padding: 40px;
+            border-radius: 30px;
+            box-shadow: 0 20px 40px rgba(0, 162, 255, 0.1);
             text-align: center;
+            border: 1px solid rgba(0, 162, 255, 0.2);
         }
 
-        .login-header h1 {
-            color: #ff4d4d;
-            font-size: 24px;
-            margin-bottom: 20px;
+        .logo-area { margin-bottom: 30px; }
+        .logo-area h1 { 
+            color: var(--blue-main); 
+            margin: 0; 
+            font-size: 32px; 
+            font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
         }
+        .logo-area span { color: #94a3b8; font-size: 14px; }
 
-        .input-group {
-            margin-bottom: 15px;
-            text-align: left;
-        }
-
-        .input-group label {
-            display: block;
-            color: #333;
-            font-size: 14px;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-
-        .input-group input {
+        /* Login UI */
+        #login-form input {
             width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            outline: none;
+            padding: 15px;
+            margin: 20px 0;
+            box-sizing: border-box;
+            border: 2px solid #e2e8f0;
+            border-radius: 15px;
+            font-size: 18px;
+            text-align: center;
             transition: 0.3s;
+            background: #fcfcfc;
+        }
+        #login-form input:focus {
+            border-color: var(--blue-main);
+            box-shadow: 0 0 10px rgba(0, 162, 255, 0.2);
+            outline: none;
         }
 
-        .input-group input:focus {
-            border-color: #ff4d4d;
-            box-shadow: 0 0 5px rgba(255, 77, 77, 0.3);
-        }
-
-        .login-btn {
-            width: 100%;
-            padding: 12px;
-            background: #ff4d4d;
+        .btn-start {
+            background: linear-gradient(to right, var(--blue-main), var(--blue-dark));
             color: white;
             border: none;
-            border-radius: 5px;
+            padding: 16px;
+            width: 100%;
+            border-radius: 15px;
             font-weight: bold;
+            font-size: 18px;
             cursor: pointer;
-            font-size: 16px;
+            box-shadow: 0 4px 15px rgba(0, 122, 204, 0.3);
             transition: 0.3s;
-            margin-top: 10px;
         }
+        .btn-start:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0, 122, 204, 0.4); }
 
-        .login-btn:hover {
-            background: #cc0000;
-        }
+        /* Loader UI */
+        #inject-ui { display: none; }
 
-        #error-msg {
-            color: #ff0000;
-            font-size: 13px;
-            margin-top: 10px;
-            display: none;
-        }
-
-        /* --- สไตล์ส่วน Menu (ซ่อนไว้ตอนแรก) --- */
-        #menu-page {
-            display: none; /* ซ่อนหน้าเมนูไว้ */
-        }
-
-        .menu-container {
-            width: 350px;
-            background: #ffffff;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
-            border: 2px solid #ff4d4d;
-        }
-
-        .menu-header {
-            background: #ff4d4d;
-            padding: 15px;
-            text-align: center;
-            color: white;
-            font-weight: bold;
-            font-size: 20px;
-            letter-spacing: 2px;
-            border-bottom: 3px solid #cc0000;
-        }
-
-        .menu-content {
-            padding: 20px;
-            max-height: 450px;
-            overflow-y: auto;
-        }
-
-        .section-title {
-            color: #ff4d4d;
-            font-size: 14px;
-            font-weight: bold;
-            margin-bottom: 10px;
-            border-left: 4px solid #ff4d4d;
-            padding-left: 8px;
-            text-transform: uppercase;
-        }
-
-        .option-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            padding: 5px 0;
-        }
-
-        .option-label {
-            color: #333;
-            font-weight: 500;
-        }
-
-        .switch {
+        .progress-box {
             position: relative;
-            display: inline-block;
-            width: 45px;
-            height: 22px;
+            width: 180px;
+            height: 180px;
+            margin: 0 auto 25px;
         }
 
-        .switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
+        svg { transform: rotate(-90deg); }
+        .circle-bg { fill: none; stroke: #edf2f7; stroke-width: 12; }
+        .circle-fill {
+            fill: none;
+            stroke: url(#blue-grad);
+            stroke-width: 12;
+            stroke-linecap: round;
+            stroke-dasharray: 440;
+            stroke-dashoffset: 440;
+            transition: stroke-dashoffset 0.3s ease;
         }
 
-        .slider {
+        .pct-number {
             position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            transition: .4s;
-            border-radius: 34px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 36px;
+            font-weight: 800;
+            color: var(--blue-main);
         }
 
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 16px;
-            width: 16px;
-            left: 3px;
-            bottom: 3px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
-        }
-
-        input:checked + .slider {
-            background-color: #ff4d4d;
-        }
-
-        input:checked + .slider:before {
-            transform: translateX(23px);
-        }
-
-        hr {
-            border: 0;
-            height: 1px;
-            background: #eee;
-            margin: 15px 0;
-        }
-
-        .menu-footer {
-            background: #f9f9f9;
-            padding: 10px;
-            text-align: center;
+        /* Console Logs */
+        .console {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 15px;
+            height: 140px;
+            padding: 15px;
+            text-align: left;
+            font-family: 'Courier New', monospace;
             font-size: 12px;
-            color: #999;
+            overflow-y: auto;
+            color: #64748b;
         }
+        .log-line { margin-bottom: 4px; border-left: 3px solid var(--blue-main); padding-left: 8px; }
+        .file-name { color: var(--blue-dark); font-weight: bold; }
     </style>
 </head>
 <body>
 
-    <div id="login-page">
-        <div class="login-header">
-            <h1>VIP LOGIN</h1>
-        </div>
-        <div class="input-group">
-            <label>Username</label>
-            <input type="text" id="username" placeholder="ใสชื่อผู้ใช้...">
-        </div>
-        <div class="input-group">
-            <label>Password (Key)</label>
-            <input type="password" id="password" placeholder="ใส่รหัสผ่าน...">
-        </div>
-        <button class="login-btn" onclick="checkLogin()">LOGIN</button>
-        <p id="error-msg">❌ ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง!</p>
+<div class="container">
+    <div class="logo-area">
+        <h1>FF Elite Free </h1>
+        <span>PREMIUM INJECTOR SYSTEM</span>
     </div>
 
-    <div id="menu-page">
-        <div class="menu-container">
-            <div class="menu-header">MOD MENU VIP</div>
-            
-            <div class="menu-content">
-                <div class="section-title">Aimbot (ล็อคเป้า)</div>
-                <div class="option-item">
-                    <span class="option-label">ล็อคหัว 50%</span>
-                    <label class="switch"><input type="checkbox"><span class="slider"></span></label>
-                </div>
-                <div class="option-item">
-                    <span class="option-label">ล็อคหัว 75%</span>
-                    <label class="switch"><input type="checkbox"><span class="slider"></span></label>
-                </div>
-                <div class="option-item">
-                    <span class="option-label">ล็อคหัว 100%</span>
-                    <label class="switch"><input type="checkbox"><span class="slider"></span></label>
-                </div>
-
-                <hr>
-
-                <div class="section-title">Visuals (ESP)</div>
-                <div class="option-item">
-                    <span class="option-label">ESP Box (กรอบ)</span>
-                    <label class="switch"><input type="checkbox"><span class="slider"></span></label>
-                </div>
-                <div class="option-item">
-                    <span class="option-label">ESP Line (เส้นทาง)</span>
-                    <label class="switch"><input type="checkbox"><span class="slider"></span></label>
-                </div>
-
-                <hr>
-
-                <div class="section-title">Others</div>
-                <div class="option-item">
-                    <span class="option-label">Antiban System</span>
-                    <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
-                </div>
-                
-                <button onclick="location.reload()" style="width:100%; padding:5px; margin-top:10px; background:none; border:1px solid #ccc; color:#999; cursor:pointer; font-size:11px; border-radius:5px;">Logout</button>
-            </div>
-
-            <div class="menu-footer">
-                Status: <span style="color: #2ecc71;">Online</span> | By ครูไอซ์สอนโปร
-            </div>
-        </div>
+    <div id="login-form">
+        <input type="password" id="key" placeholder="Enter License Key">
+        <button class="btn-start" onclick="verify()">ACTIVATE NOW</button>
+        <p style="font-size: 12px; color: #94a3b8; margin-top: 15px;">Use key: 1234</p>
     </div>
 
-    <script>
-        function checkLogin() {
-            const user = document.getElementById('username').value;
-            const pass = document.getElementById('password').value;
-            const errorMsg = document.getElementById('error-msg');
+    <div id="inject-ui">
+        <div class="progress-box">
+            <svg width="180" height="180">
+                <defs>
+                    <linearGradient id="blue-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" style="stop-color:#00a2ff;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#007acc;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+                <circle class="circle-bg" cx="90" cy="90" r="70"></circle>
+                <circle id="bar" class="circle-fill" cx="90" cy="90" r="70"></circle>
+            </svg>
+            <div class="pct-number" id="pct">0%</div>
+        </div>
 
-            // ตั้งค่า Username และ Password ที่นี่
-            if (user === "admin" && pass === "1234") {
-                // ซ่อนหน้า Login และแสดงหน้า Menu
-                document.getElementById('login-page').style.display = 'none';
-                document.getElementById('menu-page').style.display = 'block';
-            } else {
-                // แสดงข้อความแจ้งเตือน
-                errorMsg.style.display = 'block';
-                // สั่นปุ่มหรือใส่ Effect ได้ที่นี่
-            }
+        <div id="status-label" style="font-weight: bold; color: var(--blue-main); margin-bottom: 10px;">Ready to Inject...</div>
+        
+        <div class="console" id="log-console">
+            <div class="log-line">System: Requesting server access...</div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const files = [
+        "data_config_v2.bin", "libil2cpp.so", "unity_base_assets.pak",
+        "aim_assist_engine.lua", "bypass_guard.so", "m_headshot_value.xml",
+        "render_patcher.dll", "obfuscator_v4.apk", "antiban_module.bin"
+    ];
+
+    function verify() {
+        if (document.getElementById('key').value === '1234') {
+            document.getElementById('login-form').style.display = 'none';
+            document.getElementById('inject-ui').style.display = 'block';
+            startLoading();
+        } else {
+            alert("รหัสผ่านไม่ถูกต้อง!");
         }
-    </script>
+    }
+
+    function startLoading() {
+        let val = 0;
+        const bar = document.getElementById('bar');
+        const pctText = document.getElementById('pct');
+        const console = document.getElementById('log-console');
+        const status = document.getElementById('status-label');
+
+        const interval = setInterval(() => {
+            // สุ่มเลขโหลดให้ดูเหมือนจริง
+            val += Math.floor(Math.random() * 4) + 1;
+            if (val > 100) val = 100;
+
+            // อัปเดต UI
+            pctText.innerText = val + "%";
+            const offset = 440 - (val / 100 * 440);
+            bar.style.strokeDashoffset = offset;
+
+            // สุ่มแสดงชื่อไฟล์ตอนโหลด
+            if (val % 12 === 0) {
+                const randomFile = files[Math.floor(Math.random() * files.length)];
+                status.innerText = "Injecting: " + randomFile;
+                
+                const line = document.createElement('div');
+                line.className = 'log-line';
+                line.innerHTML = `Success: <span class="file-name">${randomFile}</span>`;
+                console.appendChild(line);
+                console.scrollTop = console.scrollHeight;
+            }
+
+            if (val >= 100) {
+                clearInterval(interval);
+                status.innerText = "ALL SYSTEMS ONLINE!";
+                status.style.color = "#10b981";
+                const fin = document.createElement('div');
+                fin.innerHTML = "<br><strong style='color:#10b981'>COMPLETED!</strong>";
+                console.appendChild(fin);
+            }
+        }, 150);
+    }
+</script>
 
 </body>
-    </html>
-    
+</html>
