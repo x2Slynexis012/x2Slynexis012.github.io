@@ -4,7 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VectorX Game | SA-MP Training Server</title>
-    
+
+    <!-- Social Media Metadata (Open Graph / Facebook) -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://vectorx-game.com/">
+    <meta property="og:title" content="VectorX Game | SA-MP Training Server">
+    <meta property="og:description" content="เซิฟเวอร์ SAMP ฝึกเล่นสำหรับผู้เล่นที่เล่นไม่เก่งสู้ใครไม่ไหว">
+    <!-- รูปพรีวิวใหม่ที่คุณต้องการ -->
+    <meta property="og:image" content="https://img5.pic.in.th/file/secure-sv1/VG4762834196f53088.png">
+
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="VectorX Game | SA-MP Training Server">
+    <meta name="twitter:description" content="เซิฟเวอร์ SAMP ฝึกเล่นสำหรับผู้เล่นที่เล่นไม่เก่งสู้ใครไม่ไหว">
+    <meta name="twitter:image" content="https://img5.pic.in.th/file/secure-sv1/VG4762834196f53088.png">
+
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;700;900&display=swap" rel="stylesheet">
     <!-- Font Awesome for Icons -->
@@ -244,6 +258,7 @@
             <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <div class="relative group overflow-hidden rounded-xl">
                     <div class="absolute inset-0 bg-gradient-to-t from-red-900 to-transparent opacity-60"></div>
+                    <!-- รูปประกอบในเว็บใช้รูปเดิมเพื่อให้ดูสวยงาม ส่วนรูป Thumbnail เปลี่ยนใน Meta Tags แล้ว -->
                     <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&q=80&w=400" alt="Melee" class="w-full h-64 object-cover">
                     <div class="absolute bottom-4 left-4">
                         <h4 class="text-xl font-bold">Melee Arena</h4>
@@ -252,7 +267,7 @@
                 </div>
                 <div class="relative group overflow-hidden rounded-xl">
                     <div class="absolute inset-0 bg-gradient-to-t from-red-900 to-transparent opacity-60"></div>
-                    <img src="https://i.pinimg.com/736x/3d/80/e5/3d80e56ca7a5ecf1f1640089b935636c.jpg" alt="Gun" class="w-full h-64 object-cover">
+                    <img src="https://images.unsplash.com/photo-1595231712325-9fdee60d003d?auto=format&fit=crop&q=80&w=400" alt="Gun" class="w-full h-64 object-cover">
                     <div class="absolute bottom-4 left-4">
                         <h4 class="text-xl font-bold">Gun Range</h4>
                         <p class="text-xs text-gray-300">สนามซ้อมยิงปืนเป้านิ่ง/เคลื่อนที่</p>
@@ -283,9 +298,9 @@
         <div class="max-w-7xl mx-auto px-4">
             <div class="grid md:grid-cols-2 gap-12 items-center">
                 <div>
-                    <h2 class="text-5xl font-black mb-6">ยกระดับ <br><span class="text-red-600">ฝีมือการเล่น</span></h2>
+                    <h2 class="text-5xl font-black mb-6">ยกระดับ <br><span class="text-red-600">ฝีมือการยิง</span></h2>
                     <p class="text-gray-400 text-lg mb-8 leading-relaxed">
-                        VectorX Game ไม่ได้เป็นแค่เซิร์ฟเวอร์ Training ธรรมดา แต่เป็นเซิฟเวอร์ Training ที่ทำให้คนที่เล่นไม่เก่งสู้ใครไม่ไหวได้มาฝึกในเซิฟเวอร์นี้ 
+                        VectorX Game ไม่ได้เป็นแค่เซิร์ฟเวอร์ แต่เป็น "โรงเรียนนักฆ่า" ที่จะทำให้คุณเก่งขึ้นในทุกสมรภูมิของ SA-MP ด้วยระบบเก็บสถิติที่แม่นยำ
                     </p>
                     <div class="space-y-4">
                         <div class="flex items-center space-x-4">
@@ -294,7 +309,7 @@
                         </div>
                         <div class="flex items-center space-x-4">
                             <i class="fas fa-trophy text-red-500 text-xl"></i>
-                            <span>มีการจัดแข่งขันทุกสัปดาห์</span>
+                            <span>กระดานจัดอันดับ Top 10 Skillers</span>
                         </div>
                         <div class="flex items-center space-x-4">
                             <i class="fas fa-shield-halved text-red-500 text-xl"></i>
@@ -404,7 +419,6 @@
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.fill();
-                // Add a small glow to some particles
                 if (this.size > 3) {
                     ctx.shadowBlur = 10;
                     ctx.shadowColor = this.color;
